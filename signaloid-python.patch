@@ -1,0 +1,90 @@
+diff --git a/src/signaloid/distributional/distributional.py b/src/signaloid/distributional/distributional.py
+index 9b31643..97fab2e 100644
+--- a/src/signaloid/distributional/distributional.py
++++ b/src/signaloid/distributional/distributional.py
+@@ -20,9 +20,13 @@
+
+ import re
+ import struct
+-from typing import List, Optional, Union, Tuple
+-import numpy as np
+-from numpy.typing import NDArray
++
++try:
++    from typing import List, Optional, Union
++except ImportError:
++    pass
++
++import extended_ulab_numpy as np
+
+
+ class DistributionalValue:
+diff --git a/src/signaloid/distributional_information_plotting/plot_histogram_dirac_deltas.py b/src/signaloid/distributional_information_plotting/plot_histogram_dirac_deltas.py
+index 351ea71..70bc0af 100644
+--- a/src/signaloid/distributional_information_plotting/plot_histogram_dirac_deltas.py
++++ b/src/signaloid/distributional_information_plotting/plot_histogram_dirac_deltas.py
+@@ -19,12 +19,31 @@
+ #   DEALINGS IN THE SOFTWARE.
+
+ import math
+-from typing import List, Union, Tuple
+-import numpy as np
+-import matplotlib.pyplot as plt
+-from itertools import cycle
+
+-from signaloid.distributional import DistributionalValue
++try:
++    from typing import List, Union, Tuple
++except ImportError:
++    pass
++
++import extended_ulab_numpy as np
++import plotting as plt
++from distributional import DistributionalValue
++
++
++class cycle:
++    def __init__(self, objArr):
++        self.objArr = objArr
++        self.index = 0
++
++    def __next__(self):
++        obj = self.objArr[self.index]
++
++        if self.index < len(self.objArr):
++            self.index += 1
++        else:
++            self.index = 0
++
++        return obj
+
+
+ class PlotHistogramDiracDeltas:
+@@ -39,6 +58,7 @@ class PlotHistogramDiracDeltas:
+         dist_samples: List[List[float]] = [],
+         hatches: List[str] = [],
+         colors: List[str] = [],
++        plot_name: str = "",
+     ) -> Tuple[float, float, float]:
+         """
+         Takes a DistributionalValue list and plots each DistributionalValue as a histogram.
+@@ -159,7 +179,7 @@ class PlotHistogramDiracDeltas:
+                     )
+                     candidate_facecolor = candidate_edgecolor + "40"
+                     plt.annotate(
+-                        "",
++                        plot_name,
+                         xy=(
+                             finite_sorted_dirac_deltas[0][0],
+                             finite_sorted_dirac_deltas[0][1],
+@@ -207,7 +227,9 @@ class PlotHistogramDiracDeltas:
+                     align="edge",
+                     edgecolor=candidate_edgecolor,
+                     facecolor=candidate_facecolor,
+-                    hatch=candidate_hatch
++                    hatch=candidate_hatch,
++                    title=plot_name,
++                    particle_value=dist.particle_value
+                 )
+                 min_range = min(min_range, boundary_positions[0])
+                 max_range = max(max_range, boundary_positions[-1])

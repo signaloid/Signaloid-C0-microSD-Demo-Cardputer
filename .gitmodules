@@ -1,0 +1,6 @@
+[submodule "submodules/C0-microSD-utilities"]
+	path = submodules/C0-microSD-utilities
+	url = ../../signaloid/C0-microSD-utilities.git
+[submodule "submodules/signaloid-python"]
+	path = submodules/signaloid-python
+	url = ../../signaloid/signaloid-python.git
