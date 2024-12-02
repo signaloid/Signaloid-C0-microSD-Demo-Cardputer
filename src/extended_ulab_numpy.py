@@ -1,42 +1,42 @@
-# Copyright (c) 2024, Signaloid.
+#   Copyright (c) 2024, Signaloid.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to
-# deal in the Software without restriction, including without limitation the
-# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-# sell copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+#   Permission is hereby granted, free of charge, to any person obtaining a
+#   copy of this software and associated documentation files (the "Software"),
+#   to deal in the Software without restriction, including without limitation
+#   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+#   and/or sell copies of the Software, and to permit persons to whom the
+#   Software is furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
+#   The above copyright notice and this permission notice shall be included in
+#   all copies or substantial portions of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# DEALINGS IN THE SOFTWARE.
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+#   DEALINGS IN THE SOFTWARE.
 
 
-# ulab's numpy implementation only supports a subset of numpy's functions.
-# So this file contains functions that are not supported by ulab's numpy, but
-# are needed for the calculations of this project.
+#   ulab's numpy implementation only supports a subset of numpy's functions.
+#   So this file contains functions that are not supported by ulab's numpy, but
+#   are needed for the calculations of this project.
 #
-# ulab's numpy supported functions are:
-# ['all', 'any', 'bool', 'sort', 'sum', 'acos', 'acosh', 'arange', 'arctan2',
-# 'argmax', 'argmin', 'argsort', 'around', 'array', 'asarray', 'asin', 'asinh',
-# 'atan', 'atanh', 'bitwise_and', 'bitwise_or', 'bitwise_xor', 'ceil', 'clip',
-# 'compress', 'concatenate', 'convolve', 'cos', 'cosh', 'cross', 'degrees',
-# 'delete', 'diag', 'diff', 'dot', 'e', 'empty', 'equal', 'exp', 'expm1',
-# 'eye', 'fft', 'flip', 'float', 'floor', 'frombuffer', 'full',
-# 'get_printoptions', 'inf', 'int16', 'int8', 'interp', 'isfinite', 'isinf',
-# 'left_shift', 'linalg', 'linspace', 'load', 'loadtxt', 'log', 'log10',
-# 'log2', 'logspace', 'max', 'maximum', 'mean', 'median', 'min', 'minimum',
-# 'nan', 'ndarray', 'ndinfo', 'nonzero', 'not_equal', 'ones', 'pi', 'polyfit',
-# 'polyval', 'radians', 'right_shift', 'roll', 'save', 'savetxt',
-# 'set_printoptions', 'sin', 'sinc', 'sinh', 'size', 'sqrt', 'std', 'tan',
-# 'tanh', 'trace', 'trapz', 'uint16', 'uint8', 'vectorize', 'where', 'zeros']
+#   ulab's numpy supported functions are:
+#   ['all', 'any', 'bool', 'sort', 'sum', 'acos', 'acosh', 'arange', 'arctan2',
+#   'argmax', 'argmin', 'argsort', 'around', 'array', 'asarray', 'asin', 'asinh',
+#   'atan', 'atanh', 'bitwise_and', 'bitwise_or', 'bitwise_xor', 'ceil', 'clip',
+#   'compress', 'concatenate', 'convolve', 'cos', 'cosh', 'cross', 'degrees',
+#   'delete', 'diag', 'diff', 'dot', 'e', 'empty', 'equal', 'exp', 'expm1',
+#   'eye', 'fft', 'flip', 'float', 'floor', 'frombuffer', 'full',
+#   'get_printoptions', 'inf', 'int16', 'int8', 'interp', 'isfinite', 'isinf',
+#   'left_shift', 'linalg', 'linspace', 'load', 'loadtxt', 'log', 'log10',
+#   'log2', 'logspace', 'max', 'maximum', 'mean', 'median', 'min', 'minimum',
+#   'nan', 'ndarray', 'ndinfo', 'nonzero', 'not_equal', 'ones', 'pi', 'polyfit',
+#   'polyval', 'radians', 'right_shift', 'roll', 'save', 'savetxt',
+#   'set_printoptions', 'sin', 'sinc', 'sinh', 'size', 'sqrt', 'std', 'tan',
+#   'tanh', 'trace', 'trapz', 'uint16', 'uint8', 'vectorize', 'where', 'zeros']
 
 
 import math

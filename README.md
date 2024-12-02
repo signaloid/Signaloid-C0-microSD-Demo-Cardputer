@@ -9,9 +9,9 @@ This demo application supports the following arithmetic operations of two unifor
 
 Folder `src` contains the CircuitPython source code that runs on the CardPuter. The CardPuter acts as the host that communicates with a Signaloid C0-microSD through its integrated microSD card slot.
 
-Folder `submodules/C0-microSD-utilities` contains the `interface.py` library, which is symlinked to the `src` folder, that defines the interface between the host and the Signaloid C0-microSD.
+Folder `submodules/C0-microSD-utilities/` contains the `interface.py` library, which is symlinked to the `src` folder, that defines the interface between the host and the Signaloid C0-microSD.
 
-Folder `submodules/signaloid-python` contains the `distributional.py` and `plot_histogram_dirac_deltas.py` libraries, which are symlinked to the `src` folder, that define the parsing and plotting of the distributional information from the Signaloid C0-microSD results.
+Folder `submodules/signaloid-python/` contains the `distributional.py` and `plot_histogram_dirac_deltas.py` libraries, which are symlinked to the `src` folder, that define the parsing and plotting of the distributional information from the Signaloid C0-microSD results.
 
 ## Cloning this repository
 The correct way to clone this repository is:
@@ -41,8 +41,8 @@ make
 This command will do the following:
 1. Initialize & update all submodules.
 2. Apply the necessary patches to the Signaloid Python library, so that it can be used with the CardPuter using CircuitPython.
-3. Create the `CircuitPythonLibs` folder, where the [Adafruit CircuitPython bundle](https://github.com/adafruit/Adafruit_CircuitPython_Bundle) and the [Community CircuitPython bundle](https://github.com/adafruit/CircuitPython_Community_Bundle) libraries are downloaded and extracted.
-4. Create the `src/lib` folder, where the CircuitPython libraries are symlinked to.
+3. Create the `CircuitPythonLibs/` folder, where the [Adafruit CircuitPython bundle](https://github.com/adafruit/Adafruit_CircuitPython_Bundle) and the [Community CircuitPython bundle](https://github.com/adafruit/CircuitPython_Community_Bundle) libraries are downloaded and extracted.
+4. Create the `src/lib/` folder, where the CircuitPython libraries are symlinked to.
 
 ### Copy the CircuitPython application to the CardPuter
 To copy the CircuitPython application to the CardPuter, run this command from the `root` folder:
@@ -63,7 +63,7 @@ To clean the project, run this command from the `root` folder:
 ```sh
 make clean
 ```
-This command will delete the `CircuitPythonLibs`, and the `src/lib` folders.
+This command will delete the `CircuitPythonLibs/`, and the `src/lib/` folders.
 
 ### Clean the CardPuter
 To clean the CardPuter, run this command from the `root` folder:
@@ -73,11 +73,10 @@ make clean-device
 This command will delete all files and folders from the CardPuter, and will create a new "Hello World" `code.py` file. Make sure that you have mounted your CardPuter to your computer and that the mount path is correctly specified at the `DEVICE` variable in the `Makefile` (default is `/run/media/<user>/CIRCUITPY`).
 
 ## Host application
-The host application is designed to parse input arguments following [concise form of uncertainty
-notation](https://physics.nist.gov/cgi-bin/cuu/Info/Constants/definitions.html#:~:text=A%20more%20concise%20form%20of,digits%20of%20the%20quoted%20result.&text=See%20Uncertainty%20of%20Measurement%20Results): `X.Y(Z)` that describe two uniform distributions. The application supports addition, subtraction,
-multiplication, and division of the input arguments.
+The host application is designed to parse two input arguments. Each argument specifies a uniform distribution, represented in the the [concise form of uncertainty
+notation](https://physics.nist.gov/cgi-bin/cuu/Info/Constants/definitions.html#:~:text=A%20more%20concise%20form%20of,digits%20of%20the%20quoted%20result.&text=See%20Uncertainty%20of%20Measurement%20Results), i.e., `X.Y(Z)`. The application supports addition, subtraction, multiplication, and division of the input arguments.
 ```
-usage: {add,sub,mul,div} [uniform_distribution1 uniform_distribution2]
+usage: {add,sub,mul,div} uniform_distribution1 uniform_distribution2
 
 Host application for C0-microSD calculator application
 
@@ -89,7 +88,6 @@ positional arguments:
     mul                 Multiply two uniformly distributed random variables
     div                 Divide two uniformly distributed random variables
 
-optional arguments:
     uniform_distribution1 uniform_distribution2
                         Two uniform distributions
 ```
