@@ -1,6 +1,8 @@
 # Signaloid C0-microSD CardPuter CircuitPython Demo
 This is a demo [CircuitPython](https://circuitpython.org/) host application on the [M5Stack CardPuter](https://docs.m5stack.com/en/core/CardPuter) for the [Signaloid C0-microSD Calculator Demo](https://github.com/signaloid/Signaloid-C0-microSD-Demo-Calculator).
 
+https://github.com/user-attachments/assets/15ec10e5-6ba8-48a0-8c9f-bce33e0dc572
+
 This demo application supports the following arithmetic operations of two uniform distributions:
 - Addition
 - Subtraction
