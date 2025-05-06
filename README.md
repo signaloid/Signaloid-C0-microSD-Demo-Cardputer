@@ -97,5 +97,5 @@ positional arguments:
 For example, you can multiply the value `2.0` with a tolerance of `+- 0.5` and the value `5.0` with a tolerance of `+- 0.3` by running:
 
 ```sh
-mul "2.0(5)" "5.0(3)"
+mul 2.0(5) 5.0(3)
 ```
