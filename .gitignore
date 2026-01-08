@@ -169,3 +169,7 @@ cython_debug/
 boot_out.txt
 lib
 CircuitPythonLibs
+
+# Mac
+.DS_Store
+Thumbs.db

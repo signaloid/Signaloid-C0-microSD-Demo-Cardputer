@@ -24,11 +24,11 @@ DEVICE := /run/media/$(shell whoami)/CIRCUITPY
 
 # Adafruit and Community CircuitPython library bundles.
 # To use a different bundle version, just change the version numbers below.
-CIRCUITPYTHON_ADAFRUIT_BUNDLE_VERSION 	:= 20241023
+CIRCUITPYTHON_ADAFRUIT_BUNDLE_VERSION 	:= 20250307
 CIRCUITPYTHON_ADAFRUIT_BUNDLE_NAME 	:= adafruit-circuitpython-bundle-9.x-mpy-$(CIRCUITPYTHON_ADAFRUIT_BUNDLE_VERSION)
 CIRCUITPYTHON_ADAFRUIT_BUNDLE_URL 	:= https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/$(CIRCUITPYTHON_ADAFRUIT_BUNDLE_VERSION)/$(CIRCUITPYTHON_ADAFRUIT_BUNDLE_NAME).zip
 
-CIRCUITPYTHON_COMMUNITY_BUNDLE_VERSION 	:= 20241005
+CIRCUITPYTHON_COMMUNITY_BUNDLE_VERSION 	:= 20250314
 CIRCUITPYTHON_COMMUNITY_BUNDLE_NAME 	:= circuitpython-community-bundle-9.x-mpy-$(CIRCUITPYTHON_COMMUNITY_BUNDLE_VERSION)
 CIRCUITPYTHON_COMMUNITY_BUNDLE_URL 	:= https://github.com/adafruit/CircuitPython_Community_Bundle/releases/download/$(CIRCUITPYTHON_COMMUNITY_BUNDLE_VERSION)/$(CIRCUITPYTHON_COMMUNITY_BUNDLE_NAME).zip
 
@@ -54,9 +54,9 @@ all: bundle
 # Bundle the host application and CircuitPython libraries.
 bundle: clean
 	@echo "Bundling files to project"
+	rm -rf $(ROOT_DIR)/submodules/C0-microSD-utilities
+	rm -rf $(ROOT_DIR)/submodules/signaloid-python
 	git submodule update --init --recursive
-	cd $(ROOT_DIR)/submodules/signaloid-python && \
-	git apply $(ROOT_DIR)/signaloid-python.patch
 	mkdir -p $(CIRCUITPYTHON_LIBS_DIR)
 	cd $(CIRCUITPYTHON_LIBS_DIR) && \
 	wget $(CIRCUITPYTHON_ADAFRUIT_BUNDLE_URL) && \
@@ -65,14 +65,29 @@ bundle: clean
 	unzip -o $(CIRCUITPYTHON_COMMUNITY_BUNDLE_NAME).zip
 	mkdir -p $(ROOT_DIR)/src/lib
 	cd $(ROOT_DIR)/src/lib && \
+	ln -s $(ROOT_DIR)/submodules/C0-microSD-utilities/src/circuitpython/c0microsd . && \
+	ln -s $(ROOT_DIR)/submodules/signaloid-python/src/signaloid . && \
 	ln -s $(CIRCUITPYTHON_LIBS_DIR)/$(CIRCUITPYTHON_ADAFRUIT_BUNDLE_NAME)/lib/adafruit_display_text && \
-	ln -s $(CIRCUITPYTHON_LIBS_DIR)/$(CIRCUITPYTHON_ADAFRUIT_BUNDLE_NAME)/lib/adafruit_imageload && \
 	ln -s $(CIRCUITPYTHON_LIBS_DIR)/$(CIRCUITPYTHON_COMMUNITY_BUNDLE_NAME)/lib/circuitpython_uplot
 
 # Sync the host application and CircuitPython libraries to the device.
 sync: clean-device
 	@echo "Syncing files to $(DEVICE)"
-	cp -Lrv $(ROOT_DIR)/src/* $(DEVICE)
+	@cd $(ROOT_DIR)/src/ && \
+	find -L . \
+	-type d \
+	-exec mkdir -pv '$(DEVICE)/{}' ';'
+
+	@cd $(ROOT_DIR)/src/ && \
+	find -L . \
+	-type f \
+	-not -iname "*.md" \
+	-not -iname "py.typed" \
+	-not -iname "*.csv" \
+	-not -iname "*_test.py" \
+	-not -iname ".DS_Store" \
+	-exec cp -Lrv '{}' '$(DEVICE)/{}' ';'
+
 
 # Sync the host application and CircuitPython libraries to the device, and
 # watch for any changes in the host application source code, and live sync them
@@ -98,10 +113,31 @@ live-sync: sync
 	fi; \
 	done;
 
+live-sync-mac: sync
+	@echo "Live Syncing files to $(DEVICE)"
+	@fswatch -nr $(SRC_DIR) | \
+	while read FILE_PATH EVENT; do \
+	FILENAME=$$(sed 's+$(SRC_DIR)++g' <<< $$FILE_PATH); \
+	NEW_FILE_PATH="$(DEVICE)$$FILENAME";\
+	if [ $$EVENT = "1026" ]; then \
+		echo "  MKDIR $$NEW_FILE_PATH"; \
+		mkdir -p $$NEW_FILE_PATH; \
+	elif [ $$EVENT = "580" ]; then \
+		echo "  CP    $$NEW_FILE_PATH"; \
+		cp -r $$FILE_PATH $$NEW_FILE_PATH; \
+	elif [ $$EVENT = "514" ]; then \
+		echo "  TOUCH $$NEW_FILE_PATH"; \
+		touch $$NEW_FILE_PATH; \
+	else \
+		echo "  Unhandled event $$EVENT for $$FILE_PATH"; \
+	fi; \
+	done;
+
 # Clean the project.
 clean:
 	rm -rf $(CIRCUITPYTHON_LIBS_DIR)
 	rm -rf $(ROOT_DIR)/src/lib
+	rm -rf $(ROOT_DIR)/submodules/*/
 
 # Clean the device.
 clean-device:
