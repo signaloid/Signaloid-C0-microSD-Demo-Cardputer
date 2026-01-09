@@ -34,6 +34,24 @@ To build and flash the C0-microSD application, follow the instructions in the [S
 ### Prepare the CardPuter for the CircuitPython application
 To prepare the CardPuter for the CircuitPython application, you have to flash it with the CircuitPython firmware following the instructions in the [CircuitPython M5Stack CardPuter documentation](https://circuitpython.org/board/m5stack_cardputer/).
 
+> [!IMPORTANT]  
+> Please use the `9.1.0` version of the CircuitPython firmware, as the latest, at the time of writing, `9.2.5` version causes random crashes when running the host application.  
+> 
+> Download the `9.1.0` version from [here](https://adafruit-circuit-python.s3.amazonaws.com/bin/m5stack_cardputer/en_US/adafruit-circuitpython-m5stack_cardputer-en_US-9.1.0.uf2), or use the `Browse S3` button from the [CircuitPython M5Stack CardPuter documentation](https://circuitpython.org/board/m5stack_cardputer/) and locate the `adafruit-circuitpython-m5stack_cardputer-en_US-9.1.0.uf2` file.
+
+> [!NOTE]  
+> 1. The guide needs to be run on the Google Chrome browser, it most likely won't work on other browsers (even Chromium-based ones).
+> 2. Switch the CardPuter to its bootloader mode: Press and hold the `Btn G0` button, which is to the left of the `On/Off` switch, and then plug in the USB type-C cable to connect the CardPuter to your computer. Once connected, you can let the `Btn G0`. You will not see any reaction from the CardPuter (black screen, no LEDs). However, you should now be able to locate a new serial port device, typically `ttyACM0` on Linux, or `COM1` on Windows, or similar.
+> 3. Click the `Open installer` button on the latest stable CircuitPython release section of the [CircuitPython M5Stack CardPuter documentation](https://circuitpython.org/board/m5stack_cardputer/).
+> 4. Choose the `Install Bootloader only` option, and click next.
+> 5. Click the `Connect` button, and choose your new serial port device. Click `Continue`, wait until the flashing finishes, and then click `Close`. This will erase everything on the CardPuter, and flash the latest bootloader. If no serial port selection window appears, make sure you are using the Chrome browser.
+> 6. Reboot the CardPuter by pressing the `Btn Rst` button, at the back of the CardPuter.
+> 7. You should now be able to see a new `FTHRS3BOOT` removable storage device. If you are using Linux, you have to mount it.
+> 8. You may now close the installer.
+> 9. Locate the `adafruit-circuitpython-m5stack_cardputer-en_US-9.1.0.uf2` file you previously downloaded, and copy it to the `FTHRS3BOOT` device. It should now reboot to the CircuitPython firmware.
+> 10. You should now be able to see a `Hello World!` greeting on the CardPuter, and a `CIRCUITPY` removable storage device on your computer. If not, try to reboot the CardPuter by pressing the `Btn Rst` button.
+
+
 ### Run the CircuitPython based host application
 To run the Python host application you first need to bundle all library dependencies. To do that run this command from the `root` folder:
 ```sh
